@@ -11,6 +11,7 @@ import {
     Button,
     Alert,
     Image,
+    TouchableOpacity,
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
 // import { sectionListData } from '../data/sectionListData';
@@ -153,6 +154,14 @@ export default class EventsScreen extends React.Component {
           />
       );
   };
+  onEventPress (event)  {
+    if(event == "Cry about Finals")
+    this.props.navigation.navigate('viewEvent');
+    if(event == "Ten Ren's Secret Meetup")
+    this.props.navigation.navigate('viewEvent2');
+    if(event == "Hike to the C!")
+    this.props.navigation.navigate('viewEvent3');
+  };
   render() {
       this.sectionListData = [];
     // this.selectionItem = {
@@ -255,6 +264,7 @@ export default class EventsScreen extends React.Component {
                     </View>
             }
             renderItem={({ item }) => 
+                <TouchableOpacity onPress={() => {this.onEventPress( item.eventName )}}>
                     <View style={{
                         flex: 1,
                         flexDirection: 'column',
@@ -282,6 +292,7 @@ export default class EventsScreen extends React.Component {
                         }}>{item.description}
                         </Text>
                     </View>
+                </TouchableOpacity>    
             }
             sections={this.sectionListData}
             
@@ -299,7 +310,7 @@ export default class EventsScreen extends React.Component {
           <ActionButton.Item buttonColor='#9E5EE8' title="New Event" onPress={() => this.props.navigation.navigate('createEvent')}>
             <TabBarIcon name="md-create" style={styles.actionButtonIcon} />
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#9E5EE8' title={this.selectionItem.data[0].eventName} onPress={() => this.props.navigation.navigate('viewEvent')}>
+          {/* <ActionButton.Item buttonColor='#9E5EE8' title={this.selectionItem.data[0].eventName} onPress={() => this.props.navigation.navigate('viewEvent')}>
             <TabBarIcon name="md-list" style={styles.actionButtonIcon} />
           </ActionButton.Item>
           <ActionButton.Item buttonColor='#9E5EE8' title={this.selectionItem2.data[0].eventName} onPress={() => this.props.navigation.navigate('viewEvent2')}>
@@ -307,7 +318,7 @@ export default class EventsScreen extends React.Component {
           </ActionButton.Item>
           <ActionButton.Item buttonColor='#9E5EE8' title={this.selectionItem3.data[0].eventName} onPress={() => this.props.navigation.navigate('viewEvent3')}>
             <TabBarIcon name="md-list" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
+          </ActionButton.Item> */}
           </ActionButton>  
       </View>
     );
