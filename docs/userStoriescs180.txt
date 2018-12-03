@@ -1,0 +1,44 @@
+I will be able to access my account settings, event screen, and map screen.
+DONE
+I can see upcoming events.
+DONE
+I can access this service at my leisure without worrying about losing all my settings due to not having an account, and register for events with my friends. I would also like to include my friends, who do not have an account with me on the outing.
+NOT DONE - REMOVED
+I no longer have an email connected to TGTHR
+DONE
+I can be secure in my online identity, and to prevent other users from stealing my password or being hacked by using a similar password for other services.
+DONE
+I can be reminded of upcoming events
+NOT DONE - REMOVED
+I can more quickly understand what information the application is giving me. Just because I am on vacation in France does not mean that I know how to speak French, even though all other users around me are using the application in French.
+NOT DONE
+see which friends are using the app and which events they are going to
+NOT DONE
+others can see where the event is
+DONE
+People can join my event.
+DONE
+See if I know anybody attending the event
+NOT DONE
+I can change make edits to my event if there is anything that needs editing.
+NOT DONE
+People that are too far from my event are not able to join
+NOT DONE
+i can go to events based pertaining to certain interests
+NOT DONE
+I can tell people that I will be attending the event
+DONE
+
+
+
+
+
+
+
+
+Not part of original user stories but done:
+profile: edit, upload photo, bio, location, delete...
+event - upload image
+signupscreen: forgot password
+map screen - render events on map
+about screen

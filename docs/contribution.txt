@@ -1,0 +1,22 @@
+Ryan:
+	login functionality (firebase)
+	event firebase
+	homescreen (all)
+	view event screen (all)
+	auth screens (forgot password.....)
+
+Brandon:
+	event screen (partial)
+	create event (full)
+Apollo:
+	about screen (all)
+	map screen (all)
+	icon
+	splash screen
+	some ui elements (login ui)
+
+Sabrina
+	profile (all) (firebase)
+	delete account
+all:
+navigation
