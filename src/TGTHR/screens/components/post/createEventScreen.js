@@ -66,10 +66,15 @@ export default class createEventScreen extends React.Component {
         const response = await fetch(uri);
         const blob = await response.blob();
 
-        var ref = firebase.storage().ref().update("event_images/" + eventKey);
+        var ref = firebase.storage().ref("event_images/" + eventKey);
 		return ref.put(blob);
     }
     
+    getFileExtension(filename) {
+        return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
+      }
+      
+
     onCreateEventPress = () => {
 
         if(this.state.title == '') {
@@ -92,20 +97,28 @@ export default class createEventScreen extends React.Component {
             Alert.alert("Please pick an image.");
             return;
         }
-
+        
         //get a key for a new event
         var newPostKey = firebase.database().ref().child('events').push().key;
 
         //Upload Image to FireBase storage
-        this.uploadImage(this.state.image, newPostKey)
+        /*this.uploadImage(this.state.image, newPostKey)
+        .then(() => {
+            Alert.alert("upload success");
+        })
         .catch((error) => {
             Alert.alert(error);
-        })
-        
-        // const imageRef = firebase.storage().ref("event_images/" + newPostKey);
-        // imageRef.getDownloadURL().then((url) => {
-        //     imageURL = url;
-        // });
+        })*/
+
+        // let imageURL = '';
+        /*let imageExt = this.getFileExtension(this.state.image);
+        const imageRef = firebase.storage().ref("event_images/" + newPostKey + "." + imageExt);
+        imageRef.getDownloadURL().then((url) => {
+            // imageURL = url;
+            this.setState({
+                image: url
+            });
+        });*/
 
         var eventData = {
             host: this.state.host,
@@ -130,7 +143,7 @@ export default class createEventScreen extends React.Component {
 
     render() {
         return(
-			<KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
+			<KeyboardAvoidingView behavior="padding" style={styles.container}>
                     <View style={styles.inputContainer}>
                     <TextInput style={styles.inputs}
                         placeholder="Title"
