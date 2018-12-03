@@ -100,7 +100,7 @@ export default class editProfileScreen extends React.Component {
   			location: this.state.location
   		});
   	}
-  	if(this.state.password != firebase.auth().currentUser.password){
+  	if(this.state.password != firebase.auth().currentUser.password && this.state.password){
   		firebase.auth().currentUser.updatePassword(this.state.password)
 		};
     this.props.navigation.navigate("Profile");
