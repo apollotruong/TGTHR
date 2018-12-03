@@ -1,7 +1,7 @@
 import { Notifications } from 'expo';
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import MainTabNavigator from './MainTabNavigator';
+import MainSplashScreen from './../screens/auth/MainSplashScreen';
 import ProfileScreen from './../screens/ProfileScreen';
 import editProfileScreen from './../screens/components/edits/editProfileScreen';
 
@@ -12,11 +12,9 @@ const ProfileStackNavigator = createStackNavigator(
      //        title: "Profile",}
         },
     editProfile: { screen: editProfileScreen
-    	// navigationOptions:{
-     //        title: "Edit Profile", }
         },
 
-    Main: { screen: MainTabNavigator },
+    MainSplash: { screen: MainSplashScreen },
   }
 );
 

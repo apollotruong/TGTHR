@@ -32,26 +32,13 @@ export default class ProfileScreen extends React.Component {
 	    console.ignoredYellowBox = [
 	      'Setting a timer'
 	    ];  
-	    this.database = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid + '/name'); 
+	    this.database = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid); 
 	    this.state = {
-	      name: ''
+	      name: '',
+	      email: '',
+	      bio: '',
+	      location: '',
 	    }
-	    this.database2 = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid + '/email'); 
-	    this.state = {
-	      email: ''
-	    }
-	    this.database3 = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid + '/bio'); 
-	    this.state = {
-	      bio: ''
-	    }
-	    this.database4 = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid + '/location'); 
-	    this.state = {
-	      location: ''
-	    }
-
-	    // this.state = {
-	    // 	if
-	    // }
 	}
 
 
@@ -62,29 +49,24 @@ export default class ProfileScreen extends React.Component {
 			this.setState({
 				profImageUrl: {uri: url}
 			})
+		}, (error) => {
+			this.setState({
+				profImageUrl: {uri: "https://firebasestorage.googleapis.com/v0/b/cs180-tgthr.appspot.com/o/profile_images%2Fdefault.png?alt=media&token=bb9e5182-8c81-4661-b78d-1340c2ba464d"}
+			})
 		});
 		this.database.on('value', snap => {
 		  this.setState({
-		    name: snap.val(),
+		    name: snap.val().name,
+		    email: snap.val().email,
+		    bio: snap.val().bio,
+		    location: snap.val().location,
 		  });
 		});
-		this.database2.on('value', snap => {
-		  this.setState({
-		    email: snap.val(),
-		  });
-		});
-		this.database3.on('value', snap => {
-		  this.setState({
-		    bio: snap.val(),
-		  });
-		});
-		this.database4.on('value', snap => {
-		  this.setState({
-		    location: snap.val(),
-		  });
-		});
-
 	}
+
+	// componentWillUnmount() {
+	//   firebase.database().ref('/users/' + firebase.auth().currentUser.uid).off('value', this.database);
+	// }
 
 	onEditProfilePress = () => {
 		this.props.navigation.navigate("editProfile");

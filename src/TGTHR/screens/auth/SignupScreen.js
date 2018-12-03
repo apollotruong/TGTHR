@@ -8,10 +8,15 @@ function writeUserData(userId, name, email, bio, location) {
       email: email,
       bio: bio,
       location: location,
-    //   profile_picture : imageUrl
+      // profile_picture : imageUrl
     });
-
-  }
+    // const defaultFile = {uri: "https://firebasestorage.googleapis.com/v0/b/cs180-tgthr.appspot.com/o/profile_images%2Fdefault.png?alt=media&token=bb9e5182-8c81-4661-b78d-1340c2ba464d"};
+    var defaultFile = `../../assets/images/profile/default.png`;
+    // const defaultFile = "firebase.storage().ref().child('profile_images/default.png')";
+    var defaultRef = firebase.storage().ref().child('profile_images/' + userId);
+    // const getFile = defaultFile.uri.blob();
+    defaultRef.putFile(defaultFile), {contentType: 'image/png'};
+}
 
 export default class SignupScreen extends React.Component {
     static navigationOptions = {

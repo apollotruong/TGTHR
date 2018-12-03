@@ -6,7 +6,6 @@ import {
 	Text,
 	TouchableOpacity,
 	Button,
-	ScrollView,
 	StatusBar,
 	TextInput,
 	KeyboardAvoidingView,
@@ -24,67 +23,39 @@ export default class editProfileScreen extends React.Component {
 	      'Setting a timer'
 	    ];  
 		this.database = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid);
-		const profRef = firebase.storage().ref().child('profile_images/' + firebase.auth().currentUser.uid);
-		const profImageURL = profRef.getDownloadURL();
 		this.state = {
-			profImageUrl: ''
-		}
-
-	    this.database1 = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid + '/name'); 
-	    this.state = {
-	      name: ''
-	    }
-	    this.database2 = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid + '/email'); 
-	    this.state = {
-	      email: ''
-	    }
-	    this.database3 = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid + '/password'); 
-	    this.state = {
-	      password: ''
-	    }
-	    this.database4 = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid + '/bio'); 
-	    this.state = {
-	      bio: ''
-	    }
-	    this.database5 = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid + '/location'); 
-	    this.state = {
-	      location: ''
+      name: '',
+      email: '',
+      password: '',
+      bio: '',
+      location: '',
 	    }
 	}
 	componentWillMount(){
 		this.startHeaderHeight = 100 + StatusBar.currentHeight;
-		const profRef = firebase.storage().ref().child('profile_images/' + firebase.auth().currentUser.uid);
+		const profRef = firebase.storage().ref().child("profile_images/" + firebase.auth().currentUser.uid);
 		const profURL = profRef.getDownloadURL().then((url) => {
-				this.setState({
-					profImageUrl: {uri: url}
-				})
+			this.setState({
+				profImageUrl: {uri: url}
+			})
+		}, (error) => {
+			this.setState({
+				profImageUrl: {uri: "https://firebasestorage.googleapis.com/v0/b/cs180-tgthr.appspot.com/o/profile_images%2Fdefault.png?alt=media&token=bb9e5182-8c81-4661-b78d-1340c2ba464d"}
+			})
 		});
-		this.database1.on('value', snap => {
+		this.database.on('value', snap => {
 		  this.setState({
-		    name: snap.val(),
-		  });
-		});
-		this.database2.on('value', snap => {
-		  this.setState({
-		    email: snap.val(),
-		  });
-		});
-		this.database3.on('value', snap => {
-		  this.setState({
-		    password: snap.val(),
-		  });
-		});
-		this.database4.on('value', snap => {
-		  this.setState({
-		    bio: snap.val(),
-		  });
-		});
-		this.database5.on('value', snap => {
-		  this.setState({
-		    location: snap.val(),
+		    name: snap.val().name,
+		    email: snap.val().email,
+		    bio: snap.val().bio,
+		    location: snap.val().location,
 		  });
 		});
 	}
+
+  // componentWillUnmount() {
+  //   firebase.database().ref('/users/' + firebase.auth().currentUser.uid).off('value', this.database);
+  // }
 
 	onChooseImagePress = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync();
@@ -109,19 +80,47 @@ export default class editProfileScreen extends React.Component {
 	}
 
   onSaveProfilePress = () => {
-  	
+  	if(this.state.name != this.database.child('name')){
+  		this.database.update({
+  			name: this.state.name
+  		});
+  	}
+  	if(this.state.email != this.database.child('email')){
+  		this.database.update({
+  			email: this.state.email
+  		});
+  	}
+  	if(this.state.bio != this.database.child('bio')){
+  		this.database.update({
+  			bio: this.state.bio
+  		});
+  	}
+  	if(this.state.location != this.database.child('location')){
+  		this.database.update({
+  			location: this.state.location
+  		});
+  	}
+  	if(this.state.password != firebase.auth().currentUser.password){
+  		firebase.auth().currentUser.updatePassword(this.state.password)
+		};
     this.props.navigation.navigate("Profile");
   }
 
-// delete button doesnt delete info in database and storage of uid
+// default image not set to user
 	deleteOKButton = () => {
-		// firebase.database().currentUser.ref().delete();
+		var userID = firebase.auth().currentUser.uid;
 		firebase.auth().currentUser.delete().then(function () {
-		  console.log('delete successful?')
+		  console.log('delete successful')
+		  console.log(userID)
+			firebase.database().ref().child('/users/'+ userID).remove();
+			firebase.storage().ref().child("profile_images/" + userID).delete().catch(function(error){ });
+	  	console.log('OK Pressed')
 		}).catch(function (error) {
-		  console.error({error})
+			Alert.alert('you need to have recently logged in.')
+			console.log('cannot delete')
+			console.log(error)
 		})
-		console.log('OK Pressed')
+
 	}
 
   onDeleteProfilePress = () => {
@@ -138,7 +137,7 @@ export default class editProfileScreen extends React.Component {
 	render() {
   	return(
 
-		<ScrollView style={styles.container} keyboardDismissMode='on-drag'>
+		<KeyboardAvoidingView style={styles.container} behavior='padding'>
     	<View style={styles.container}>
 				{/* edit profile picture */}
 				{/* can upload but not show*/}
@@ -153,7 +152,7 @@ export default class editProfileScreen extends React.Component {
 							value={this.state.name} 
 							onChangeText={(name) => this.setState({name})}
 						/>
-						{/* insert user information */}
+						{/* edit user location */}
 						<TextInput 
 							style={{marginLeft: 20, fontSize: 19}} 
 							onChangeText={(location) => this.setState({location})} 
@@ -181,12 +180,18 @@ export default class editProfileScreen extends React.Component {
 					/>
 				</View>
 
-			{/* FIX: save button does not work */}
+					<Text> Change Password: </Text><TextInput 
+						style={styles.infoText} 
+            secureTextEntry={true}
+            autoCapitalize="none"
+						onChangeText={(password) => this.setState({password})}
+						value={this.state.password} 
+					/>
 			<Button title="Save" onPress={this.onSaveProfilePress} />
 
 			<Button title="DELETE ACCOUNT" onPress={this.onDeleteProfilePress} />
 			</View>
-		</ScrollView>	
+		</KeyboardAvoidingView>	
   	);
 	}
 }
