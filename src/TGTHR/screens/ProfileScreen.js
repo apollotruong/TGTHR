@@ -10,7 +10,7 @@ import {
 	StatusBar,
 	ScrollView,
 } from 'react-native';
-// import { createStackNavigator } from 'react-navigation';
+// import { LoginManager } from 'react-native-fbsdk'; 
 
 import * as firebase from 'firebase';
 
@@ -68,6 +68,20 @@ export default class ProfileScreen extends React.Component {
 	//   firebase.database().ref('/users/' + firebase.auth().currentUser.uid).off('value', this.database);
 	// }
 
+	// FBSocial = () => {
+	// 	LoginManager.logInWithReadPermissions(["public_profile"]).then(
+	// 		function(result){
+	// 			if(result.isCancelled){
+	// 				console.log('login was cancelled');
+	// 			} else{
+	// 				console.log('login was successful with permissions: ' + result.grantedPermissions.toString());
+	// 			}
+	// 		}, function(error){
+	// 			console.log('login failed: ' + error);
+	// 		}
+	// 	);
+	// }
+
 	onEditProfilePress = () => {
 		this.props.navigation.navigate("editProfile");
 	}
@@ -81,7 +95,6 @@ export default class ProfileScreen extends React.Component {
 		<ScrollView style={styles.container}>
     	<View style={styles.container}>
 				{/* display profile picture */}
-				{/* DONE FIX: figure out how to display image from database */}
 				{/* FIX: figure out how to update image from database after uploading new one*/}
 			<View style={styles.profileContainer}>
 				<Image source={this.state.profImageUrl} style={styles.profileImage}/>
@@ -93,9 +106,8 @@ export default class ProfileScreen extends React.Component {
 
 				{/* display user bio */}
 			<View style={styles.informationContainer}>
-					<Text style={styles.bioText}><Text>Bio: 
-					</Text> {this.state.bio}</Text>
-
+				<Text style={styles.bioText}><Text>Bio: 
+				</Text> {this.state.bio}</Text>
 				{/* display profile information */}
 				<Text style={styles.infoText}> Email: {this.state.email} {/* insert user information */}</Text>
 			</View>
@@ -104,17 +116,14 @@ export default class ProfileScreen extends React.Component {
 				{/* FIX: if connected then full color.
 					if not then grey tone, */}
 			<View style={styles.socialView}>
-					<TouchableOpacity onPress={this.social1}>
+					<TouchableOpacity onPress={this.FBSocial}>
 					   <Image style={styles.socialImage} source={require('../assets/images/profile/icons/facebook.png')}/>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={this.social1} style={styles.socialButton}>
+					<TouchableOpacity onPress={this.GoogleSocial} style={styles.socialButton}>
 					   <Image style={styles.socialImage} source={require('../assets/images/profile/icons/google-plus.png')}/>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={this.social1} style={styles.socialButton}>
+					<TouchableOpacity onPress={this.TwitterSocial} style={styles.socialButton}>
 					   <Image style={styles.socialImage} source={require('../assets/images/profile/icons/twitter.png')}/>
-					</TouchableOpacity>
-					<TouchableOpacity onPress={this.social1} style={styles.socialButton}>
-					   <Image style={styles.socialImage} source={require('../assets/images/profile/icons/whatsapp.png')}/>
 					</TouchableOpacity>
 			</View>
 
@@ -124,7 +133,11 @@ export default class ProfileScreen extends React.Component {
 		</ScrollView>	
   	);
 	}
+
+
 }
+
+
 
 
 const styles = StyleSheet.create({

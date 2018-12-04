@@ -5,7 +5,7 @@ import RootNavigation from './navigation/RootNavigation';
 import MainTabNavigator from './navigation/MainTabNavigator';
 import ApiKeys from './constants/ApiKeys';
 import * as firebase from 'firebase';
-import {Permissions,Notifications} from 'expo'
+import {Permissions,Notifications} from 'expo';
 
 export default class App extends React.Component {
 
