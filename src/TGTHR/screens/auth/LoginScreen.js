@@ -8,6 +8,7 @@ export default class LoginScreen extends React.Component {
     }
 
     constructor(props) {
+    	console.disableYellowBox=true;
         super(props);
         this.state = {
             email: "",

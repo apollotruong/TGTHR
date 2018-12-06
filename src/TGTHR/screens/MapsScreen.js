@@ -53,6 +53,15 @@ export default class MapsScreen extends React.Component {
 			     		latitude:33.975799,
 						longitude:-117.309653
 					},
+				},
+
+				{
+				title: "Bbq",
+				date: "2018-12-7 13:00",
+					coordinates: {
+			     		latitude:33.978571,
+						longitude:-117.339542
+					},
 			
 		  	}]
 		}
