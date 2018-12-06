@@ -32,6 +32,7 @@ export default class ProfileScreen extends React.Component {
 	    console.ignoredYellowBox = [
 	      'Setting a timer'
 	    ];  
+		const profRef = firebase.storage().ref().child("profile_images/" + firebase.auth().currentUser.uid);
 	    this.database = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid); 
 	    this.state = {
 	      name: '',
@@ -69,6 +70,10 @@ export default class ProfileScreen extends React.Component {
 			this.setState({
 				profImageUrl: {uri: url}
 			});
+		}, (error) => {
+			this.setState({
+				profImageUrl: {uri: "https://firebasestorage.googleapis.com/v0/b/cs180-tgthr.appspot.com/o/profile_images%2Fdefault.png?alt=media&token=bb9e5182-8c81-4661-b78d-1340c2ba464d"}
+			})
 		});
 	}
 	// componentWillUnmount() {
@@ -123,7 +128,7 @@ export default class ProfileScreen extends React.Component {
 			</View>
 
 			<Button title="Edit Profile" onPress={this.onEditProfilePress.bind(this)} />
-			<Button title="Sign out" onPress={this.onSignoutPress} />
+			<Button title="Sign out" onPress={this.onSignoutPress.bind(this)} />
 		</View>
 		</ScrollView>	
   	);
