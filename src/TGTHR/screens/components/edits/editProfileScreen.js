@@ -24,11 +24,11 @@ export default class editProfileScreen extends React.Component {
 	    ];  
 		this.database = firebase.database().ref().child('/users/' + firebase.auth().currentUser.uid);
 		this.state = {
-      name: '',
-      email: '',
-      password: '',
-      bio: '',
-      location: '',
+	      name: '',
+	      email: '',
+	      password: '',
+	      bio: '',
+	      location: '',
 	    }
 	}
 	componentWillMount(){
@@ -63,13 +63,17 @@ export default class editProfileScreen extends React.Component {
 		if(!result.cancelled){
 			this.uploadImage(result.uri, firebase.auth().currentUser.uid)
 			.then(() => {
+				this.setState({
+					profImageUrl: {uri: result.uri}
+				});
 				Alert.alert("upload success");
 			})
 			.catch((error) => {
 				Alert.alert(error);
 			})
 		}
-  }
+
+  	}
 
 	uploadImage = async (uri, imageName) => {
 		const response = await fetch(uri);
@@ -102,8 +106,10 @@ export default class editProfileScreen extends React.Component {
   	}
   	if(this.state.password != firebase.auth().currentUser.password && this.state.password){
   		firebase.auth().currentUser.updatePassword(this.state.password)
-		};
+	};
+
     this.props.navigation.navigate("Profile");
+;
   }
 
 // default image not set to user
@@ -187,7 +193,7 @@ export default class editProfileScreen extends React.Component {
 						onChangeText={(password) => this.setState({password})}
 						value={this.state.password} 
 					/>
-			<Button title="Save" onPress={this.onSaveProfilePress} />
+			<Button title="Save" onPress={this.onSaveProfilePress.bind(this)} />
 
 			<Button title="DELETE ACCOUNT" onPress={this.onDeleteProfilePress} />
 			</View>
