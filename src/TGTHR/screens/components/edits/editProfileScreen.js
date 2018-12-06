@@ -116,11 +116,11 @@ export default class editProfileScreen extends React.Component {
 	deleteOKButton = () => {
 		var userID = firebase.auth().currentUser.uid;
 		firebase.auth().currentUser.delete().then(function () {
-		  console.log('delete successful')
-		  console.log(userID)
-			firebase.database().ref().child('/users/'+ userID).remove();
+			console.log('delete successful')
+			console.log(userID)
+			firebase.database().ref('/users/'+ userID).remove();
 			firebase.storage().ref().child("profile_images/" + userID).delete().catch(function(error){ });
-	  	console.log('OK Pressed')
+			console.log('OK Pressed')
 		}).catch(function (error) {
 			Alert.alert('you need to have recently logged in.')
 			console.log('cannot delete')
@@ -195,7 +195,7 @@ export default class editProfileScreen extends React.Component {
 					/>
 			<Button title="Save" onPress={this.onSaveProfilePress.bind(this)} />
 
-			<Button title="DELETE ACCOUNT" onPress={this.onDeleteProfilePress} />
+			<Button title="DELETE ACCOUNT" onPress={this.onDeleteProfilePress.bind(this)} />
 			</View>
 		</KeyboardAvoidingView>	
   	);

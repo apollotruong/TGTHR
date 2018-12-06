@@ -47,7 +47,7 @@ export default class ProfileScreen extends React.Component {
 		const profURL = profRef.getDownloadURL().then((url) => {
 			this.setState({
 				profImageUrl: {uri: url}
-			})
+			});
 		}, (error) => {
 			this.setState({
 				profImageUrl: {uri: "https://firebasestorage.googleapis.com/v0/b/cs180-tgthr.appspot.com/o/profile_images%2Fdefault.png?alt=media&token=bb9e5182-8c81-4661-b78d-1340c2ba464d"}
@@ -63,6 +63,14 @@ export default class ProfileScreen extends React.Component {
 		});
 	}
 
+	componentWillUpdate(){
+		const profRef = firebase.storage().ref().child("profile_images/" + firebase.auth().currentUser.uid);
+		const profURL = profRef.getDownloadURL().then((url) => {
+			this.setState({
+				profImageUrl: {uri: url}
+			});
+		});
+	}
 	// componentWillUnmount() {
 	//   firebase.database().ref('/users/' + firebase.auth().currentUser.uid).off('value', this.database);
 	// }
